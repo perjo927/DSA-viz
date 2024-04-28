@@ -1,20 +1,22 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { sort } from "./sort";
+import { clsx } from "clsx";
 
 export default function App() {
-  const numbersList = [5, 4, 3, 2, 1];
+  const numbersDescending = [5, 4, 3, 2, 1];
+  const numbersAscending = [1, 2, 3, 4, 5];
 
-  const [numbers, setNumbers] = useState("");
-  const [swapped, setSwapped] = useState("");
+  const [numbers, setNumbers] = useState(numbersDescending);
+  const [swapped, setSwapped] = useState("false");
   const [outerIndex, setOuterIndex] = useState(0);
   const [innerIndex, setInnerIndex] = useState(0);
   const [noOfIterations, setNoOfIterations] = useState(0);
-  const [current, setCurrent] = useState(null);
-  const [next, setNext] = useState(null);
+  const [current, setCurrent] = useState(numbersDescending.at(0));
+  const [next, setNext] = useState(numbersDescending.at(1));
 
   useEffect(() => {
-    getNumbers(numbersList);
+    getNumbers(numbersDescending);
   }, []);
 
   async function getNumbers(_numbers: Array<number>) {
@@ -37,7 +39,7 @@ export default function App() {
     setNext(next);
     setNoOfIterations(counter);
     setSwapped(hasSwapped);
-    setNumbers(numbers.join(", "));
+    setNumbers(numbers);
   };
 
   return (
@@ -108,14 +110,31 @@ export default function App() {
     return numbers;
   }
       `}</pre>
-      <p>Length: {numbersList.length}</p>
+      <section id="numbers">
+        {numbers.map((value, index) => {
+          return (
+            <div className={clsx({ outer: true, index: index === innerIndex })}>
+              <div className="pointer">{index === innerIndex && "↓"}</div>
+              <div
+                className={clsx({
+                  "list-box": true,
+                  current: value === current,
+                  next: value === next,
+                })}
+              >
+                {value}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+      <p>Length: {numbers.length}</p>
       <p>Outer index:{outerIndex}</p>
       <p>Inner index: {innerIndex}</p>
       <p>Current: {current}.</p>
       <p>Next: {next}.</p>
       <p>Has swapped: {swapped ? "true" : "false"}</p>
       <p>Iterations: {noOfIterations}</p>
-      <p>Numbers: {numbers}</p>
       TODO: Worst case / best case comparison
     </div>
   );
