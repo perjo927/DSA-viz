@@ -108,14 +108,14 @@ export default function App() {
     return numbers;
   }
       `}</pre>
-      <section>{numbers}</section>
-      Iterated: x times.
-      <p>
-        Length: {numbersList.length}. Outer index:{outerIndex}. Innder index:{" "}
-        {innerIndex}. Current: {current}. Next: {next}. Has swapped:{" "}
-        {swapped ? "true" : "false"}. Iterations: {noOfIterations}
-        Numbers: {numbers}
-      </p>
+      <p>Length: {numbersList.length}</p>
+      <p>Outer index:{outerIndex}</p>
+      <p>Inner index: {innerIndex}</p>
+      <p>Current: {current}.</p>
+      <p>Next: {next}.</p>
+      <p>Has swapped: {swapped ? "true" : "false"}</p>
+      <p>Iterations: {noOfIterations}</p>
+      <p>Numbers: {numbers}</p>
       TODO: Worst case / best case comparison
     </div>
   );
