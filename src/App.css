@@ -6,6 +6,7 @@ section#numbers {
   height: 5rem;
   display: flex;
   flex-direction: row;
+  gap: 0.5rem;
 
   div {
     &.pointer {
@@ -13,8 +14,7 @@ section#numbers {
       height: 2rem;
     }
     &.list-box {
-      border: 0.5rem solid black;
-      border-left: 0;
+      border: 0.25rem solid black;
       width: 3rem;
       height: 3rem;
       text-align: center;

@@ -1,0 +1,16 @@
+code {
+  font-family: "Courier New", Courier, monospace;
+  white-space: pre-wrap;
+}
+
+.highlight {
+  font-weight: 700;
+  color: green;
+}
+
+.dynamic {
+  font-size: 0.8rem;
+  font-style: italic;
+  border: 1px solid grey;
+  color: grey;
+}
