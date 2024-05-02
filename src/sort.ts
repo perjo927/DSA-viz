@@ -27,16 +27,44 @@ export async function sort(numbers: Array<number>, onChange) {
       loc = "const next = numbers[i + 1];";
       await cb({ loc, numbers, counter, i, current, next, hasSwapped });
 
-      loc = "if (current > next) {";
-      await cb({ loc, numbers, counter, i, current, next, hasSwapped });
       if (next && current > next) {
-        loc = "numbers[i] = next;";
-        await cb({ loc, numbers, counter, i, current, next, hasSwapped });
-        numbers[i] = next;
+        loc = "if (current > next) {";
+        await cb({
+          loc,
+          numbers,
+          counter,
+          i,
+          current,
+          next,
+          hasSwapped,
+          shouldSwap: true,
+        });
 
-        numbers[i + 1] = current;
+        loc = "numbers[i] = next;";
+        await cb({
+          loc,
+          numbers,
+          counter,
+          i,
+          current,
+          next,
+          hasSwapped,
+          shouldSwap: true,
+        });
+
         loc = "numbers[i + 1] = current;";
-        await cb({ loc, numbers, counter, i, current, next, hasSwapped });
+        await cb({
+          loc,
+          numbers,
+          counter,
+          i,
+          current,
+          next,
+          hasSwapped,
+        });
+
+        numbers[i] = next;
+        numbers[i + 1] = current;
 
         hasSwapped = true;
         loc = "hasSwapped = true;";

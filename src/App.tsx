@@ -80,6 +80,7 @@ export default function App() {
 
   const [numbers, setNumbers] = useState(numbersDescending);
   const [swapped, setSwapped] = useState<string | undefined>("false");
+  const [shouldSwap, setShouldSwap] = useState(false);
   const [i, setI] = useState<number | undefined>(0);
   const [current, setCurrent] = useState<number | undefined>(
     numbersDescending.at(0)
@@ -107,6 +108,7 @@ export default function App() {
     i,
     current,
     next,
+    shouldSwap = false,
   }: {
     counter: number;
     loc: string | null;
@@ -115,18 +117,20 @@ export default function App() {
     i?: number;
     current?: number;
     next?: number;
+    shouldSwap?: boolean;
   }) => {
     setI(i);
     setCurrent(current);
     setNext(next);
     setNoOfIterations(counter);
     setSwapped(hasSwapped?.toString());
+    setShouldSwap(shouldSwap);
     setNumbers(numbers);
     setExecutingLineOfCode(loc);
   };
 
   return (
-    <div>
+    <main>
       <h1>Bubble Sort</h1>
       <h2>Explanation</h2>
       {explanationDetails}
@@ -162,13 +166,17 @@ export default function App() {
       <section id="numbers">
         {numbers.map((value, index) => {
           return (
-            <div className={clsx({ outer: true, index: index === i })}>
+            <div
+              key={value}
+              className={clsx({ outer: true, index: index === i })}
+            >
               <div className="pointer">{index === i && "↓"}</div>
               <div
                 className={clsx({
                   "list-box": true,
                   current: value === current,
                   next: value === next,
+                  swap: shouldSwap,
                 })}
               >
                 {value}
@@ -180,6 +188,6 @@ export default function App() {
       <p>Iterations: {noOfIterations}</p>
       TODO: Worst case / best case comparison play/pause/speed/quit
       <div></div>
-    </div>
+    </main>
   );
 }

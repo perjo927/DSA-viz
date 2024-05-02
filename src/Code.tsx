@@ -27,6 +27,7 @@ export function Code({
 
         return (
           <div
+            key={i}
             className={
               lineOfCode.includes(highlightedLine ?? "-1") ? "highlight" : ""
             }

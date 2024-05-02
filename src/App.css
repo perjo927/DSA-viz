@@ -2,6 +2,10 @@ html {
   font-size: 16px;
 }
 
+main {
+  padding: 0 1rem;
+}
+
 section#numbers {
   height: 5rem;
   display: flex;
@@ -14,6 +18,7 @@ section#numbers {
       height: 2rem;
     }
     &.list-box {
+      border-radius: 50%;
       border: 0.25rem solid black;
       width: 3rem;
       height: 3rem;
@@ -23,10 +28,45 @@ section#numbers {
 
       &.current {
         border-color: green;
+        &.swap {
+          animation: jump-up 0.5s cubic-bezier(0, 0.79, 0.78, 0.93) forwards;
+        }
       }
       &.next {
         border-color: blue;
+        &.swap {
+          animation: jump-down 0.5s cubic-bezier(0, 0.79, 0.78, 0.93) forwards;
+        }
       }
     }
+  }
+}
+
+@keyframes jump-up {
+  0% {
+    transform: translate(0%, -0%);
+  }
+  25% {
+    transform: translate(30%, -40%);
+  }
+  60% {
+    transform: translate(60%, -50%);
+  }
+  100% {
+    transform: translate(115%, 0%);
+  }
+}
+@keyframes jump-down {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  25% {
+    transform: translate(-30%, 40%);
+  }
+  60% {
+    transform: translate(-60%, 50%);
+  }
+  100% {
+    transform: translate(-115%, 0%);
   }
 }
