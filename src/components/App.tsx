@@ -111,7 +111,6 @@ export default function App() {
     setSwapped(hasSwapped?.toString());
     setShouldSwap(shouldSwap);
     setNumbers(numbers);
-    console.log({ loc });
     setExecutingLineOfCode(loc);
   };
 
