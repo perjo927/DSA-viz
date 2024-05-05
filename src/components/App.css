@@ -1,0 +1,107 @@
+main#mfe--bubble-sort {
+  font-size: 16px;
+  padding: 0 1rem;
+
+  section#numbers {
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+
+    .pointer {
+      text-align: center;
+      height: 2rem;
+    }
+
+    .list-box {
+      box-sizing: border-box;
+      width: 4rem;
+      height: 4rem;
+      text-align: center;
+      display: grid;
+      place-items: center;
+      background: rgba(25, 155, 255, 0.2);
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at center,
+        #e0ffff 0%,
+        #7de5ff 46%,
+        #00609c 100%
+      );
+
+      border: 1px ridge #0074c2;
+
+      &.current {
+        box-shadow: 0px 0px 5px 3px goldenrod;
+
+        &.swap {
+          animation: jump-up 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+      }
+      &.next {
+        box-shadow: 0px 0px 5px 3px rgb(0, 170, 255);
+        &.swap {
+          animation: jump-down 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+            forwards;
+        }
+      }
+    }
+  }
+}
+
+@keyframes jump-up {
+  0% {
+    transform: translate(0%, -0%);
+    transform: scale(1);
+  }
+  25% {
+    transform: translate(20%, -40%);
+    transform: scale(1.05, 0.95);
+  }
+  30% {
+    transform: translate(30%, -45%);
+    transform: scale(1.1, 0.9);
+  }
+  40% {
+    transform: translate(45%, -50%);
+    transform: scale(1.2, 0.8);
+  }
+  60% {
+    transform: translate(60%, -50%);
+    transform: scale(1.1, 0.9);
+  }
+  70% {
+    transform: translate(75%, -45%);
+  }
+  100% {
+    transform: translate(115%, 0%);
+  }
+}
+@keyframes jump-down {
+  0% {
+    transform: translate(-0%, 0%);
+    /* transform: scale(1); */
+  }
+  25% {
+    transform: translate(-20%, 40%);
+    /* transform: scale(1.05, 0.95); */
+  }
+  30% {
+    transform: translate(-30%, 45%);
+    /* transform: scale(1.1, 0.9); */
+  }
+  40% {
+    transform: translate(-45%, 50%);
+    /* transform: scale(1.2, 0.8); */
+  }
+  60% {
+    transform: translate(-60%, 50%);
+    /* transform: scale(1.1, 0.9); */
+  }
+  70% {
+    transform: translate(-75%, 45%);
+  }
+  100% {
+    transform: translate(-115%, 0%);
+  }
+}

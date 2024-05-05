@@ -65,7 +65,6 @@ export async function sort(numbers: Array<number>, onChange) {
 
         numbers[i] = next;
         numbers[i + 1] = current;
-
         hasSwapped = true;
         loc = "hasSwapped = true;";
         await cb({ loc, numbers, counter, i, current, next, hasSwapped });

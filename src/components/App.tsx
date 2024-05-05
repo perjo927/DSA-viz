@@ -1,25 +1,10 @@
 import "./App.css";
-import { useEffect, useState, JSX } from "react";
-import { sort } from "./sort";
+import { useState } from "react";
+import { sort } from "../lib/sort";
 import { clsx } from "clsx";
 import { Code } from "./Code";
+import { DetailsWrapper } from "./Details";
 
-const DetailsWrapper = ({
-  summary,
-  children,
-  open = false,
-}: {
-  summary: string;
-  open: boolean;
-  children?: JSX.Element;
-}) => {
-  return (
-    <details open={open}>
-      <summary>{summary}</summary>
-      {children}
-    </details>
-  );
-};
 const explanationDetails = (
   <DetailsWrapper summary="Details" open={true}>
     <p>
@@ -91,9 +76,9 @@ export default function App() {
   );
   const [noOfIterations, setNoOfIterations] = useState(0);
 
-  useEffect(() => {
+  function handlePlay() {
     getNumbers(numbersDescending);
-  }, []);
+  }
 
   async function getNumbers(_numbers: Array<number>) {
     const arr = await sort(_numbers, onChange);
@@ -130,7 +115,7 @@ export default function App() {
   };
 
   return (
-    <main>
+    <main id="mfe--bubble-sort">
       <h1>Bubble Sort</h1>
       <h2>Explanation</h2>
       {explanationDetails}
@@ -139,20 +124,23 @@ export default function App() {
       <h2>Time complexity</h2>
       {complexityDetails}
       <h2>Example Code</h2>
-      <Code
-        highlightedLine={executingLineOfCode}
-        code={`
-  function sort(numbers) { {{numbers = ${numbers}}}
-    let hasSwapped; {{hasSwapped = ${swapped}}}
+      <button onClick={handlePlay}>Play best case</button>
+      <button onClick={handlePlay}>Play worst case</button>
+      <DetailsWrapper summary="Details" open={true}>
+        <Code
+          highlightedLine={executingLineOfCode}
+          code={`
+  function sort(numbers) { {{${numbers}}}
+    let hasSwapped; {{${swapped}}}
 
     do {
       hasSwapped = false;
      
-      for (let i = 0; i < numbers.length; i++) {{i = ${i}}}
-        const current = numbers[i]; {{current = ${current}}}
-        const next = numbers[i + 1]; {{next = ${next}}}
+      for (let i = 0; i < numbers.length; i++) {{${i}}}
+        const current = numbers[i]; {{${current}}}
+        const next = numbers[i + 1]; {{${next}}}
 
-        if (current > next) { {{current > next = ${current > next}}}
+        if (current > next) { {{${current > next}}}
           numbers[i] = next; 
           numbers[i + 1] = current;
           hasSwapped = true;
@@ -162,7 +150,8 @@ export default function App() {
 
     return numbers;
   }`}
-      />
+        />
+      </DetailsWrapper>
       <section id="numbers">
         {numbers.map((value, index) => {
           return (
