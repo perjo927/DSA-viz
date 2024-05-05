@@ -4,6 +4,8 @@ import { sort } from "../lib/sort";
 import { clsx } from "clsx";
 import { Code } from "./Code";
 import { DetailsWrapper } from "./Details";
+import { ArrowDown } from "./ArrowDown";
+import { step } from "../lib/step";
 
 const explanationDetails = (
   <DetailsWrapper summary="Details" open={true}>
@@ -71,9 +73,7 @@ export default function App() {
     numbersDescending.at(0)
   );
   const [next, setNext] = useState<number | undefined>(numbersDescending.at(1));
-  const [executingLineOfCode, setExecutingLineOfCode] = useState<string | null>(
-    null
-  );
+  const [executingLineOfCode, setExecutingLineOfCode] = useState<string>("-1");
   const [noOfIterations, setNoOfIterations] = useState(0);
 
   function handlePlay() {
@@ -96,7 +96,7 @@ export default function App() {
     shouldSwap = false,
   }: {
     counter: number;
-    loc: string | null;
+    loc: string;
     numbers: number[];
     hasSwapped?: boolean;
     i?: number;
@@ -111,6 +111,7 @@ export default function App() {
     setSwapped(hasSwapped?.toString());
     setShouldSwap(shouldSwap);
     setNumbers(numbers);
+    console.log({ loc });
     setExecutingLineOfCode(loc);
   };
 
@@ -130,25 +131,25 @@ export default function App() {
         <Code
           highlightedLine={executingLineOfCode}
           code={`
-  function sort(numbers) { {{${numbers}}}
-    let hasSwapped; {{${swapped ?? ""}}}
+  function sort(numbers) { {{${numbers}}} 
+    let hasSwapped; {{${swapped ?? ""}}} ${step(1)}
 
     do {
-      hasSwapped = false;
+      hasSwapped = false; ${step(2)}
      
-      for (let i = 0; i < numbers.length; i++) {{${i ?? ""}}}
-        const current = numbers[i]; {{${current ?? ""}}}
-        const next = numbers[i + 1]; {{${next ?? ""}}}
+      for (let i = 0; i < numbers.length; i++) {{${i ?? ""}}} ${step(3)}
+        const current = numbers[i]; {{${current ?? ""}}} ${step(4)}
+        const next = numbers[i + 1]; {{${next ?? ""}}} ${step(5)}
 
-        if (current > next) { {{${current > next ?? ""}}}
-          numbers[i] = next;  
-          numbers[i + 1] = current;
-          hasSwapped = true;
+        if (current > next) { {{${current > next ?? ""}}} ${step(6)}
+          numbers[i] = next; ${step(7)}
+          numbers[i + 1] = current; ${step(8)}
+          hasSwapped = true; ${step(9)}
         }
       }
     } while (hasSwapped);
 
-    return numbers;
+    return numbers; ${step(10)}
   }`}
         />
       </DetailsWrapper>
@@ -159,7 +160,7 @@ export default function App() {
               key={value}
               className={clsx({ outer: true, index: index === i })}
             >
-              <div className="pointer">{index === i && "↓"}</div>
+              <div className="pointer">{index === i && <ArrowDown />}</div>
               <div
                 className={clsx({
                   "list-box": true,

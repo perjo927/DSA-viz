@@ -5,33 +5,41 @@ export function Code({
   highlightedLine,
 }: {
   code: string;
-  highlightedLine: string | null;
+  highlightedLine: string;
 }) {
   const codeArray = code.split("\n");
   // Regular expression to capture content within double curly braces
-  const variableInjection = /{{(.*?)}}/;
+  const variableInjectionRegex = /{{(.*?)}}/;
+  const commentRegex = /\/\*(.*?)\*\//;
 
   return (
     <code id="code">
       {codeArray.map((line, i) => {
         let lineOfCode = line;
         let dynamicVariable;
+        let comment = "";
 
-        const matches = line.match(variableInjection);
+        const commentMatches = line.match(commentRegex);
         // If a match is found, capture the text within the braces
         // and remove it (but save the value)
-        if (matches) {
-          const subString = matches[0];
-          dynamicVariable = matches[1];
-          lineOfCode = line.replace(subString, "");
+        if (commentMatches) {
+          comment = commentMatches[0];
+          lineOfCode = line.replace(comment, "");
+        }
+
+        const variableMatches = line.match(variableInjectionRegex);
+        // If a match is found, capture the text within the braces
+        // and remove it (but save the value)
+        if (variableMatches) {
+          const subString = variableMatches[0];
+          dynamicVariable = variableMatches[1];
+          lineOfCode = lineOfCode.replace(subString, "");
         }
 
         return (
           <div
             key={i}
-            className={
-              lineOfCode.includes(highlightedLine ?? "-1") ? "highlight" : ""
-            }
+            className={comment.includes(highlightedLine) ? "highlight" : ""}
           >
             {i !== 0 && <span className="line-number">{i}</span>}
             <span className="loc">{lineOfCode}</span>

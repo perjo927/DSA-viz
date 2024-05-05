@@ -1,3 +1,4 @@
+import { step } from "./step";
 import { wait } from "./wait";
 
 export async function sort(numbers: Array<number>, onChange) {
@@ -7,30 +8,32 @@ export async function sort(numbers: Array<number>, onChange) {
   let counter = 0;
   let loc: string | null = null;
 
-  loc = "let hasSwapped";
-  await cb({ loc, numbers, counter });
+  await cb({ loc: step(1), numbers, counter });
 
   do {
     hasSwapped = false;
-    loc = "hasSwapped = false;";
-    await cb({ loc, numbers, counter, hasSwapped });
+    await cb({ loc: step(2), numbers, counter, hasSwapped });
 
     for (let i = 0; i < numbers.length; i++) {
-      loc = "for (let i = 0; i < numbers.length; i++) {";
-      await cb({ loc, numbers, counter, i, hasSwapped });
+      await cb({ loc: step(3), numbers, counter, i, hasSwapped });
 
       const current = numbers[i];
-      loc = "const current = numbers[i];";
-      await cb({ loc, numbers, counter, i, current, hasSwapped });
+      await cb({ loc: step(4), numbers, counter, i, current, hasSwapped });
 
       const next = numbers[i + 1];
-      loc = "const next = numbers[i + 1];";
-      await cb({ loc, numbers, counter, i, current, next, hasSwapped });
+      await cb({
+        loc: step(5),
+        numbers,
+        counter,
+        i,
+        current,
+        next,
+        hasSwapped,
+      });
 
       if (next && current > next) {
-        loc = "if (current > next) {";
         await cb({
-          loc,
+          loc: step(6),
           numbers,
           counter,
           i,
@@ -40,9 +43,8 @@ export async function sort(numbers: Array<number>, onChange) {
           shouldSwap: true,
         });
 
-        loc = "numbers[i] = next;";
         await cb({
-          loc,
+          loc: step(7),
           numbers,
           counter,
           i,
@@ -52,9 +54,8 @@ export async function sort(numbers: Array<number>, onChange) {
           shouldSwap: true,
         });
 
-        loc = "numbers[i + 1] = current;";
         await cb({
-          loc,
+          loc: step(8),
           numbers,
           counter,
           i,
@@ -66,14 +67,20 @@ export async function sort(numbers: Array<number>, onChange) {
         numbers[i] = next;
         numbers[i + 1] = current;
         hasSwapped = true;
-        loc = "hasSwapped = true;";
-        await cb({ loc, numbers, counter, i, current, next, hasSwapped });
+        await cb({
+          loc: step(9),
+          numbers,
+          counter,
+          i,
+          current,
+          next,
+          hasSwapped,
+        });
       }
       counter++;
     }
   } while (hasSwapped);
 
-  loc = "return numbers;";
-  await cb({ loc, numbers, counter, hasSwapped });
+  await cb({ loc: step(10), numbers, counter, hasSwapped });
   return numbers;
 }

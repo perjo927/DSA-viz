@@ -10,15 +10,27 @@ main#mfe--bubble-sort {
   line-height: 1.5rem;
 
   h1 {
+    color: white;
     font-weight: 600;
+    margin-block: 2rem;
+    text-align: center;
+    letter-spacing: 0.3rem;
   }
   h2,
   h3 {
+    letter-spacing: 0.1rem;
     font-weight: 400;
+    margin-block: 3rem 1rem;
   }
 
-  p {
+  p,
+  ol {
+    color: white;
     font-weight: 100;
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding: 1rem;
+    background: #111111;
   }
 
   section#numbers {
