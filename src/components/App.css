@@ -1,6 +1,25 @@
+body {
+  background-color: #191919;
+  color: #d8d8d8;
+}
+
 main#mfe--bubble-sort {
+  font-family: "Old Standard TT", serif;
   font-size: 16px;
   padding: 0 1rem;
+  line-height: 1.5rem;
+
+  h1 {
+    font-weight: 600;
+  }
+  h2,
+  h3 {
+    font-weight: 400;
+  }
+
+  p {
+    font-weight: 100;
+  }
 
   section#numbers {
     height: 5rem;
@@ -14,6 +33,10 @@ main#mfe--bubble-sort {
     }
 
     .list-box {
+      font-family: "Fira Code", monospace;
+      font-optical-sizing: auto;
+      font-weight: 100;
+
       box-sizing: border-box;
       width: 4rem;
       height: 4rem;
@@ -28,14 +51,25 @@ main#mfe--bubble-sort {
         #7de5ff 46%,
         #00609c 100%
       );
-
       border: 1px ridge #0074c2;
+      perspective: 1000px;
+      transition: box-shadow 0.3s;
+
+      span {
+        text-shadow: -1px -1px 0 #006c8d, 1px -1px 0 #0078d9, -1px 1px 0 #000,
+          1px 1px 0 #001e32;
+        color: rgb(0 125 151 / 92%);
+        line-height: 70px;
+        font-size: 2.5rem;
+        transform: translateY(-8px) translateZ(100px) rotateX(316deg)
+          skew(0deg, 0deg);
+      }
 
       &.current {
         box-shadow: 0px 0px 5px 3px goldenrod;
 
         &.swap {
-          animation: jump-up 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+          animation: jump-up 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
         }
       }
       &.next {

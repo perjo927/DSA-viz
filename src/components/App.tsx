@@ -116,14 +116,14 @@ export default function App() {
 
   return (
     <main id="mfe--bubble-sort">
-      <h1>Bubble Sort</h1>
-      <h2>Explanation</h2>
+      <h1>BUBBLE SORT</h1>
+      <h2>EXPLANATION</h2>
       {explanationDetails}
-      <h2>Algorithm</h2>
+      <h2>ALGORITHM</h2>
       {algorithmDetails}
-      <h2>Time complexity</h2>
+      <h2>TIME COMPLEXITY</h2>
       {complexityDetails}
-      <h2>Example Code</h2>
+      <h2>EXAMPLE CODE</h2>
       <button onClick={handlePlay}>Play best case</button>
       <button onClick={handlePlay}>Play worst case</button>
       <DetailsWrapper summary="Details" open={true}>
@@ -131,17 +131,17 @@ export default function App() {
           highlightedLine={executingLineOfCode}
           code={`
   function sort(numbers) { {{${numbers}}}
-    let hasSwapped; {{${swapped}}}
+    let hasSwapped; {{${swapped ?? ""}}}
 
     do {
       hasSwapped = false;
      
-      for (let i = 0; i < numbers.length; i++) {{${i}}}
-        const current = numbers[i]; {{${current}}}
-        const next = numbers[i + 1]; {{${next}}}
+      for (let i = 0; i < numbers.length; i++) {{${i ?? ""}}}
+        const current = numbers[i]; {{${current ?? ""}}}
+        const next = numbers[i + 1]; {{${next ?? ""}}}
 
-        if (current > next) { {{${current > next}}}
-          numbers[i] = next; 
+        if (current > next) { {{${current > next ?? ""}}}
+          numbers[i] = next;  
           numbers[i + 1] = current;
           hasSwapped = true;
         }
@@ -168,7 +168,7 @@ export default function App() {
                   swap: shouldSwap,
                 })}
               >
-                {value}
+                <span>{value}</span>
               </div>
             </div>
           );
