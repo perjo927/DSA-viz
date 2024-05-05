@@ -20,7 +20,7 @@ const explanationDetails = (
 const algorithmDetails = (
   <DetailsWrapper summary="Steps" open={false}>
     <ol>
-      <li>Create a flag to indicate if values have been swapped</li>
+      <li>Create a flag to indicate if values have been swapped.</li>
       <li>
         Create a loop that runs at least once, given the swapped flag is set to
         true.
@@ -124,8 +124,10 @@ export default function App() {
       <h2>TIME COMPLEXITY</h2>
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
-      <button onClick={handlePlay}>Play best case</button>
-      <button onClick={handlePlay}>Play worst case</button>
+      <div>
+        <button onClick={handlePlay}>Play best case</button>
+        <button onClick={handlePlay}>Play worst case</button>
+      </div>
       <DetailsWrapper summary="Details" open={true}>
         <Code
           highlightedLine={executingLineOfCode}

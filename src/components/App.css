@@ -8,6 +8,7 @@ main#mfe--bubble-sort {
   font-size: 16px;
   padding: 0 1rem;
   line-height: 1.5rem;
+  width: 40rem;
 
   h1 {
     color: white;
@@ -21,6 +22,20 @@ main#mfe--bubble-sort {
     letter-spacing: 0.1rem;
     font-weight: 400;
     margin-block: 3rem 1rem;
+  }
+
+  button {
+    appearance: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #191919;
+    color: #d8d8d8;
+    font-family: "Old Standard TT", serif;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #111111;
+    }
   }
 
   p,
@@ -48,7 +63,6 @@ main#mfe--bubble-sort {
       font-family: "Fira Code", monospace;
       font-optical-sizing: auto;
       font-weight: 100;
-
       box-sizing: border-box;
       width: 4rem;
       height: 4rem;
@@ -59,18 +73,18 @@ main#mfe--bubble-sort {
       border-radius: 50%;
       background: radial-gradient(
         ellipse at center,
-        #e0ffff 0%,
-        #7de5ff 46%,
-        #00609c 100%
+        #ffe0f5 0%,
+        #e89be3 46%,
+        #340024 100%
       );
-      border: 1px ridge #0074c2;
+      border: 1px ridge #c20071;
       perspective: 1000px;
       transition: box-shadow 0.3s;
 
       span {
-        text-shadow: -1px -1px 0 #006c8d, 1px -1px 0 #0078d9, -1px 1px 0 #000,
-          1px 1px 0 #001e32;
-        color: rgb(0 125 151 / 92%);
+        text-shadow: -1px -1px 0 #e1d3e1, 1px -1px 0 #1e0020, -1px 1px 0 #2c002b,
+          1px 1px 0 #320032;
+        color: rgb(226 87 255);
         line-height: 70px;
         font-size: 2.5rem;
         transform: translateY(-8px) translateZ(100px) rotateX(316deg)
@@ -78,14 +92,14 @@ main#mfe--bubble-sort {
       }
 
       &.current {
-        box-shadow: 0px 0px 5px 3px goldenrod;
+        box-shadow: 0px 0px 6px 4px white;
 
         &.swap {
           animation: jump-up 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
         }
       }
       &.next {
-        box-shadow: 0px 0px 5px 3px rgb(0, 170, 255);
+        box-shadow: 0px 0px 5px 3px rgba(246, 200, 255, 0.902);
         &.swap {
           animation: jump-down 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28)
             forwards;
@@ -126,23 +140,18 @@ main#mfe--bubble-sort {
 @keyframes jump-down {
   0% {
     transform: translate(-0%, 0%);
-    /* transform: scale(1); */
   }
   25% {
     transform: translate(-20%, 40%);
-    /* transform: scale(1.05, 0.95); */
   }
   30% {
     transform: translate(-30%, 45%);
-    /* transform: scale(1.1, 0.9); */
   }
   40% {
     transform: translate(-45%, 50%);
-    /* transform: scale(1.2, 0.8); */
   }
   60% {
     transform: translate(-60%, 50%);
-    /* transform: scale(1.1, 0.9); */
   }
   70% {
     transform: translate(-75%, 45%);

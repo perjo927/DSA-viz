@@ -5,21 +5,22 @@ main#mfe--bubble-sort {
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
+    font-size: 0.8rem;
     white-space: pre-wrap;
     line-height: 1.2rem;
     display: block;
     background: #0c002647;
     background: radial-gradient(
       ellipse at center,
-      #ff00d647 0%,
-      #38012f 46%,
-      #1e0011c7 100%
+      #52004503 0%,
+      #14000f21 46%,
+      #000000c7 100%
     );
-
+    width: 30rem;
     padding: 1rem;
     border-radius: 2px;
-    border: 1px ridge #fb83c9bf;
-    box-shadow: 0px 0px 7px 0px #f400a0ab;
+    border: 1px ridge #ffffffbf;
+    box-shadow: 0px 0px 7px 0px #ffc1ea3d;
 
     .highlight {
       box-shadow: inset -1px 5px 14px 6px rgb(255 0 125 / 47%);
@@ -28,7 +29,7 @@ main#mfe--bubble-sort {
     }
 
     .dynamic {
-      background-color: rgb(51, 0, 37);
+      background-color: rgb(17 0 12);
       font-size: 0.8rem;
       font-weight: 100;
       border: 1px ridge #fb83c9bf;
