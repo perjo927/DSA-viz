@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { sort } from "../lib/sort";
+import { getSorter } from "../lib/sorter";
 import { clsx } from "clsx";
 import { Code } from "./Code";
 import { DetailsWrapper } from "./Details";
@@ -61,10 +61,19 @@ const complexityDetails = (
   </DetailsWrapper>
 );
 
+const enum SortOrder {
+  Descending,
+  Ascending
+}
+
 export default function App() {
   const numbersDescending = [5, 4, 3, 2, 1];
   const numbersAscending = [1, 2, 3, 4, 5];
 
+  // TODO: useReducer
+  const [intervalRef, setIntervalRef] = useState<number | null>(null)
+  const [intervalLength, setIntervalLength] = useState(500)
+  const [sortOrder, setSortOrder] = useState(SortOrder.Descending);
   const [numbers, setNumbers] = useState(numbersDescending);
   const [swapped, setSwapped] = useState<string | undefined>("false");
   const [shouldSwap, setShouldSwap] = useState(false);
@@ -73,21 +82,54 @@ export default function App() {
     numbersDescending.at(0)
   );
   const [next, setNext] = useState<number | undefined>(numbersDescending.at(1));
-  const [executingLineOfCode, setExecutingLineOfCode] = useState<string>("-1");
+  const [highlightedCodeStep, setHighlightedCodeStep] = useState<string>("-1");
   const [noOfIterations, setNoOfIterations] = useState(0);
+  const [sorter, setSorter] = useState(getSorter(numbers))
+  const [isPlayEnabled, setIsPlayEnabled] = useState(true)
 
+  // TODO: ascending / descending radio buttons
   function handlePlay() {
-    getNumbers(numbersDescending);
+    // TODO: disable if playing 7 stopped / needs reset
+
+    setIsPlayEnabled(false)
+
+    const interval = setInterval(() => {
+      const { value, done } = sorter.next()
+
+      if (done) {
+        if (intervalRef) {
+          clearInterval(intervalRef);
+        }
+      }
+
+      if (value) {
+        setValues(value)
+      }
+    }, intervalLength);
+    setIntervalRef(interval)
   }
 
-  async function getNumbers(_numbers: Array<number>) {
-    const arr = await sort(_numbers, onChange);
-    return arr.join(",");
+  function handlePause() {
+    setIsPlayEnabled(true)
+
+    if (intervalRef) {
+      clearInterval(intervalRef);
+    }
   }
 
-  const onChange = async ({
-    counter,
-    loc,
+  function handleStop() {
+    sorter.return(null)
+    setValues({ count: 0, step: step(1), numbers })
+    setSorter(getSorter(numbers))
+    setIsPlayEnabled(true)
+    if (intervalRef) {
+      clearInterval(intervalRef);
+    }
+  }
+
+  const setValues = ({
+    count,
+    step,
     numbers,
     hasSwapped,
     i,
@@ -95,8 +137,8 @@ export default function App() {
     next,
     shouldSwap = false,
   }: {
-    counter: number;
-    loc: string;
+    count: number;
+    step: string;
     numbers: number[];
     hasSwapped?: boolean;
     i?: number;
@@ -107,11 +149,11 @@ export default function App() {
     setI(i);
     setCurrent(current);
     setNext(next);
-    setNoOfIterations(counter);
+    setNoOfIterations(count);
     setSwapped(hasSwapped?.toString());
     setShouldSwap(shouldSwap);
     setNumbers(numbers);
-    setExecutingLineOfCode(loc);
+    setHighlightedCodeStep(step);
   };
 
   return (
@@ -125,12 +167,13 @@ export default function App() {
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
       <div>
-        <button onClick={handlePlay}>Play best case</button>
-        <button onClick={handlePlay}>Play worst case</button>
+        <button onClick={handlePlay} disabled={!isPlayEnabled}>Play / resume best case</button>
+        <button onClick={handlePause}>Pause</button>
+        <button onClick={handleStop}>Reset</button>
       </div>
       <DetailsWrapper summary="Details" open={true}>
         <Code
-          highlightedLine={executingLineOfCode}
+          highlightedLine={highlightedCodeStep}
           code={`
   function sort(numbers) { {{${numbers}}} 
     let hasSwapped; {{${swapped ?? ""}}} ${step(1)}
