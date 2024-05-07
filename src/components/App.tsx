@@ -85,13 +85,12 @@ export default function App() {
   const [highlightedCodeStep, setHighlightedCodeStep] = useState<string>("-1");
   const [noOfIterations, setNoOfIterations] = useState(0);
   const [sorter, setSorter] = useState(getSorter(numbers))
-  const [isPlayEnabled, setIsPlayEnabled] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   // TODO: ascending / descending radio buttons
   function handlePlay() {
     // TODO: disable if playing 7 stopped / needs reset
-
-    setIsPlayEnabled(false)
+    setIsPlaying(true)
 
     const interval = setInterval(() => {
       const { value, done } = sorter.next()
@@ -110,18 +109,18 @@ export default function App() {
   }
 
   function handlePause() {
-    setIsPlayEnabled(true)
+    setIsPlaying(false)
 
     if (intervalRef) {
       clearInterval(intervalRef);
     }
   }
 
-  function handleStop() {
+  function handleReset() {
     sorter.return(null)
     setValues({ count: 0, step: step(1), numbers })
     setSorter(getSorter(numbers))
-    setIsPlayEnabled(true)
+    setIsPlaying(false)
     if (intervalRef) {
       clearInterval(intervalRef);
     }
@@ -167,9 +166,8 @@ export default function App() {
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
       <div>
-        <button onClick={handlePlay} disabled={!isPlayEnabled}>Play / resume best case</button>
-        <button onClick={handlePause}>Pause</button>
-        <button onClick={handleStop}>Reset</button>
+        <button onClick={isPlaying ? handlePause : handlePlay}>{isPlaying ? "Pause" : "Play"} best case</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
       <DetailsWrapper summary="Details" open={true}>
         <Code

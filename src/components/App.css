@@ -36,6 +36,10 @@ main#mfe--bubble-sort {
     &:hover {
       background-color: #111111;
     }
+    &:disabled {
+      background-color: #4f4f4f;
+      cursor:not-allowed;
+    }
   }
 
   p,
