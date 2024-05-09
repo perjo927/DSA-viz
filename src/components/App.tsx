@@ -63,53 +63,68 @@ const complexityDetails = (
 
 const enum SortOrder {
   Descending,
-  Ascending
+  Ascending,
 }
+
+const speed = {
+  MIN: 100,
+  INCREMENT: 100,
+  DEFAULT: 500,
+  MAX: 1000,
+};
 
 export default function App() {
   const numbersDescending = [5, 4, 3, 2, 1];
   const numbersAscending = [1, 2, 3, 4, 5];
 
   // TODO: useReducer
-  const [intervalRef, setIntervalRef] = useState<number | null>(null)
-  const [intervalLength, setIntervalLength] = useState(500)
+  const [intervalRef, setIntervalRef] = useState<number | null>(null);
+  const [intervalLength, setIntervalLength] = useState(500);
   const [sortOrder, setSortOrder] = useState(SortOrder.Descending);
-  const [numbers, setNumbers] = useState(numbersDescending);
-  const [swapped, setSwapped] = useState<string | undefined>("false");
+  const [numbers, setNumbers] = useState(numbersDescending.slice());
+  const [swapped, setSwapped] = useState<string | undefined>(undefined);
   const [shouldSwap, setShouldSwap] = useState(false);
-  const [i, setI] = useState<number | undefined>(0);
-  const [current, setCurrent] = useState<number | undefined>(
-    numbersDescending.at(0)
+  const [i, setI] = useState<number | undefined>(undefined);
+  const [current, setCurrent] = useState<number | undefined>(undefined);
+  const [next, setNext] = useState<number | undefined>(undefined);
+  const [highlightedCodeStep, setHighlightedCodeStep] = useState<string>(
+    step(0)
   );
-  const [next, setNext] = useState<number | undefined>(numbersDescending.at(1));
-  const [highlightedCodeStep, setHighlightedCodeStep] = useState<string>("-1");
   const [noOfIterations, setNoOfIterations] = useState(0);
-  const [sorter, setSorter] = useState(getSorter(numbers))
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [sorter, setSorter] = useState(getSorter(numbers));
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   // TODO: ascending / descending radio buttons
   function handlePlay() {
-    // TODO: disable if playing 7 stopped / needs reset
-    setIsPlaying(true)
+    setIsPlaying(true);
+    setHasStarted(true);
 
+    console.log({
+      isPlaying,
+      hasStarted,
+      intervalLength,
+      numbers,
+      i,
+      noOfIterations,
+    });
     const interval = setInterval(() => {
-      const { value, done } = sorter.next()
+      const { value, done } = sorter.next();
 
       if (done) {
-        if (intervalRef) {
-          clearInterval(intervalRef);
-        }
+        handleReset();
       }
 
       if (value) {
-        setValues(value)
+        setValues(value);
       }
     }, intervalLength);
-    setIntervalRef(interval)
+    setIntervalRef(interval);
+    console.log({ interval });
   }
 
   function handlePause() {
-    setIsPlaying(false)
+    setIsPlaying(false);
 
     if (intervalRef) {
       clearInterval(intervalRef);
@@ -117,16 +132,30 @@ export default function App() {
   }
 
   function handleReset() {
-    sorter.return(null)
-    setValues({ count: 0, step: step(1), numbers })
-    setSorter(getSorter(numbers))
-    setIsPlaying(false)
     if (intervalRef) {
       clearInterval(intervalRef);
     }
+
+    sorter.return(null);
+    setSorter(getSorter(numbersDescending.slice() /* TODO: base on order */));
+
+    setIsPlaying(false);
+    setHasStarted(false);
+    setValues({
+      count: 0,
+      step: step(0),
+      numbers: numbersDescending.slice() /* TODO: base on order */,
+    });
   }
 
-  function handleSpeed() {}
+  function handleSpeed(direction: number) {
+    const newSpeed = intervalLength + direction * speed.INCREMENT;
+    if (newSpeed < speed.MIN || newSpeed > speed.MAX) {
+      return;
+    }
+    setIntervalLength(newSpeed);
+  }
+
   function handleOrder(order: SortOrder) {}
 
   const setValues = ({
@@ -169,13 +198,35 @@ export default function App() {
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
       <div>
-        <button onClick={isPlaying ? handlePause : handlePlay}>{isPlaying ? "Pause" : "Play"} best case</button>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={handleReset}>Speed + </button>
-        <button onClick={handleReset}>Speed - </button>
-        <button onClick={handleReset}>Change order</button>
+        <button onClick={isPlaying ? handlePause : handlePlay}>
+          {isPlaying ? "Pause" : "Play"} best case
+        </button>
+        <button onClick={handleReset} disabled={!hasStarted}>
+          Reset
+        </button>
+        <button
+          onClick={() => handleSpeed(-1)}
+          disabled={(hasStarted && isPlaying) || intervalLength <= speed.MIN}
+        >
+          Speed +{" "}
+        </button>
+        <button
+          onClick={() => handleSpeed(1)}
+          disabled={(hasStarted && isPlaying) || intervalLength >= speed.MAX}
+        >
+          Speed -{" "}
+        </button>
+        <button onClick={handleReset} disabled={hasStarted}>
+          Change order
+        </button>
       </div>
-      <DetailsWrapper summary="Details" open={true}>
+      <div id="speed">
+        <span
+          id="speed-indicator"
+          style={{ left: `${32 - intervalLength / 31}rem` }}
+        ></span>
+      </div>
+      <DetailsWrapper summary="Source code details" open={true}>
         <Code
           highlightedLine={highlightedCodeStep}
           code={`
@@ -189,7 +240,9 @@ export default function App() {
         const current = numbers[i]; {{${current ?? ""}}} ${step(4)}
         const next = numbers[i + 1]; {{${next ?? ""}}} ${step(5)}
 
-        if (current > next) { {{${current > next ?? ""}}} ${step(6)}
+        if (current > next) { {{${
+          !current || !next ? "" : current > next
+        }}} ${step(6)}
           numbers[i] = next; ${step(7)}
           numbers[i + 1] = current; ${step(8)}
           hasSwapped = true; ${step(9)}
