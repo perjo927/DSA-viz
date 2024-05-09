@@ -126,6 +126,9 @@ export default function App() {
     }
   }
 
+  function handleSpeed() {}
+  function handleOrder(order: SortOrder) {}
+
   const setValues = ({
     count,
     step,
@@ -168,6 +171,9 @@ export default function App() {
       <div>
         <button onClick={isPlaying ? handlePause : handlePlay}>{isPlaying ? "Pause" : "Play"} best case</button>
         <button onClick={handleReset}>Reset</button>
+        <button onClick={handleReset}>Speed + </button>
+        <button onClick={handleReset}>Speed - </button>
+        <button onClick={handleReset}>Change order</button>
       </div>
       <DetailsWrapper summary="Details" open={true}>
         <Code
