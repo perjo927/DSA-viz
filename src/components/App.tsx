@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSorter } from "../lib/sorter";
 import { clsx } from "clsx";
 import { Code } from "./Code";
@@ -11,9 +11,10 @@ const explanationDetails = (
   <DetailsWrapper summary="Details" open={true}>
     <p>
       Bubble Sort works by comparing adjacent values in an array and swapping
-      the values if the current value is greater than the next (for ascending
-      order). For each iteration, the largest value "bubbles" to the top. The
-      process is repeated until all the elements are in their right position.
+      those values if the value at the current index is greater than the next
+      (for ascending order sorting). For each iteration, the largest value
+      "bubbles" to the top. The process is repeated until all the elements are
+      in their right position.
     </p>
   </DetailsWrapper>
 );
@@ -45,6 +46,7 @@ const algorithmDetails = (
     </ol>
   </DetailsWrapper>
 );
+// TODO: scientific notation
 const complexityDetails = (
   <DetailsWrapper summary="Best & worst case" open={false}>
     <>
@@ -77,7 +79,6 @@ export default function App() {
   const numbersDescending = [5, 4, 3, 2, 1];
   const numbersAscending = [1, 2, 3, 4, 5];
 
-  // TODO: useReducer
   const [intervalRef, setIntervalRef] = useState<number | null>(null);
   const [intervalLength, setIntervalLength] = useState(500);
   const [sortOrder, setSortOrder] = useState(SortOrder.Descending);
@@ -94,33 +95,33 @@ export default function App() {
   const [sorter, setSorter] = useState(getSorter(numbers));
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isSortingDone, setIsSortingDone] = useState(false);
 
-  // TODO: ascending / descending radio buttons
+  useEffect(() => {
+    if (isSortingDone && intervalRef) {
+      handleReset();
+    }
+  }, [isSortingDone, intervalRef]);
+
+  function handleSorter() {
+    const { value, done } = sorter.next();
+
+    if (done) {
+      setIsSortingDone(true);
+    }
+
+    if (value) {
+      setCodeExampleValues(value);
+    }
+  }
+
   function handlePlay() {
     setIsPlaying(true);
     setHasStarted(true);
+    setIsSortingDone(false);
 
-    console.log({
-      isPlaying,
-      hasStarted,
-      intervalLength,
-      numbers,
-      i,
-      noOfIterations,
-    });
-    const interval = setInterval(() => {
-      const { value, done } = sorter.next();
-
-      if (done) {
-        handleReset();
-      }
-
-      if (value) {
-        setValues(value);
-      }
-    }, intervalLength);
+    const interval = setInterval(handleSorter, intervalLength);
     setIntervalRef(interval);
-    console.log({ interval });
   }
 
   function handlePause() {
@@ -137,14 +138,18 @@ export default function App() {
     }
 
     sorter.return(null);
-    setSorter(getSorter(numbersDescending.slice() /* TODO: base on order */));
 
+    const newNumbers =
+      sortOrder === SortOrder.Ascending
+        ? numbersAscending.slice()
+        : numbersDescending.slice();
+    setSorter(getSorter(newNumbers));
     setIsPlaying(false);
     setHasStarted(false);
-    setValues({
+    setCodeExampleValues({
       count: 0,
       step: step(0),
-      numbers: numbersDescending.slice() /* TODO: base on order */,
+      numbers: newNumbers,
     });
   }
 
@@ -156,9 +161,30 @@ export default function App() {
     setIntervalLength(newSpeed);
   }
 
-  function handleOrder(order: SortOrder) {}
+  function handleOrder() {
+    sorter.return(null);
 
-  const setValues = ({
+    const order =
+      sortOrder === SortOrder.Ascending
+        ? SortOrder.Descending
+        : SortOrder.Ascending;
+
+    const newNumbers =
+      sortOrder === SortOrder.Ascending
+        ? numbersAscending.slice()
+        : numbersDescending.slice();
+
+    setSorter(getSorter(newNumbers));
+    setCodeExampleValues({
+      count: 0,
+      step: step(0),
+      numbers: newNumbers,
+    });
+    setSortOrder(order);
+    setNumbers(newNumbers);
+  }
+
+  const setCodeExampleValues = ({
     count,
     step,
     numbers,
@@ -197,6 +223,7 @@ export default function App() {
       <h2>TIME COMPLEXITY</h2>
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
+      {/* Control panel */}
       <div>
         <button onClick={isPlaying ? handlePause : handlePlay}>
           {isPlaying ? "Pause" : "Play"} best case
@@ -204,27 +231,31 @@ export default function App() {
         <button onClick={handleReset} disabled={!hasStarted}>
           Reset
         </button>
-        <button
-          onClick={() => handleSpeed(-1)}
-          disabled={(hasStarted && isPlaying) || intervalLength <= speed.MIN}
-        >
-          Speed +{" "}
+
+        <button onClick={handleOrder} disabled={hasStarted}>
+          Change order
         </button>
+      </div>
+      <div>
+        {/* Speed Indicator */}
         <button
           onClick={() => handleSpeed(1)}
           disabled={(hasStarted && isPlaying) || intervalLength >= speed.MAX}
         >
-          Speed -{" "}
+          {"-"}
         </button>
-        <button onClick={handleReset} disabled={hasStarted}>
-          Change order
+        <div id="speed">
+          <span
+            id="speed-indicator"
+            style={{ left: `${32 - intervalLength / 31}rem` }}
+          ></span>
+        </div>
+        <button
+          onClick={() => handleSpeed(-1)}
+          disabled={(hasStarted && isPlaying) || intervalLength <= speed.MIN}
+        >
+          {"+"}
         </button>
-      </div>
-      <div id="speed">
-        <span
-          id="speed-indicator"
-          style={{ left: `${32 - intervalLength / 31}rem` }}
-        ></span>
       </div>
       <DetailsWrapper summary="Source code details" open={true}>
         <Code
@@ -254,6 +285,11 @@ export default function App() {
   }`}
         />
       </DetailsWrapper>
+      <div id="arrow">
+        <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
+          <ArrowDown />
+        </span>
+      </div>
       <section id="numbers">
         {numbers.map((value, index) => {
           return (
@@ -261,7 +297,6 @@ export default function App() {
               key={value}
               className={clsx({ outer: true, index: index === i })}
             >
-              <div className="pointer">{index === i && <ArrowDown />}</div>
               <div
                 className={clsx({
                   "list-box": true,
@@ -276,8 +311,12 @@ export default function App() {
           );
         })}
       </section>
-      <p>Iterations: {noOfIterations}</p>
-      TODO: Worst case / best case comparison play/pause/speed/quit
+      <p>
+        <span>Iterations: {noOfIterations}.</span>
+        {current && next && current > next && (
+          <span>{` ${current} is greater than ${next}. Swapping  ${current} and ${next}.`}</span>
+        )}
+      </p>
       <div></div>
     </main>
   );

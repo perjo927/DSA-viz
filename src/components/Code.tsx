@@ -1,12 +1,13 @@
+import clsx from "clsx";
 import "./Code.css";
 
 export function Code({
   code,
   highlightedLine,
-}: {
+}: Readonly<{
   code: string;
   highlightedLine: string;
-}) {
+}>) {
   const codeArray = code.split("\n");
   // Regular expression to capture content within double curly braces
   const variableInjectionRegex = /{{(.*?)}}/;
@@ -39,7 +40,7 @@ export function Code({
         return (
           <div
             key={i}
-            className={comment.includes(highlightedLine) ? "highlight" : ""}
+            className={clsx({ highlight: comment.includes(highlightedLine) })}
           >
             {i !== 0 && <span className="line-number">{i}</span>}
             <span className="loc">{lineOfCode}</span>

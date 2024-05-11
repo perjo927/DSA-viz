@@ -115,6 +115,20 @@ main#mfe--bubble-sort {
     }
   }
 
+  #arrow {
+    width: 30rem;
+    height: 5rem;
+    margin: auto;
+
+    span {
+      display: block;
+      height: 3rem;
+      width: 3rem;
+      position: relative;
+      transition: all 0.2s;
+    }
+  }
+
   #speed {
     margin-block: 1rem;
     border-radius: 1rem;
