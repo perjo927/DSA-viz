@@ -10,11 +10,11 @@ import { step } from "../lib/step";
 const explanationDetails = (
   <DetailsWrapper summary="Details" open={true}>
     <p>
-      Bubble Sort works by comparing adjacent values in an array and swapping
-      those values if the value at the current index is greater than the next
-      (for ascending order sorting). For each iteration, the largest value
-      "bubbles" to the top. The process is repeated until all the elements are
-      in their right position.
+      Bubble Sort works by comparing adjacent values in an array/list and
+      swapping those values if the value at the current index is greater than
+      the next (for ascending order sorting). For each iteration, the largest
+      value "bubbles" to the top. The process is repeated until all the elements
+      are in their right position.
     </p>
   </DetailsWrapper>
 );
@@ -23,41 +23,56 @@ const algorithmDetails = (
     <ol>
       <li>Create a flag to indicate if values have been swapped.</li>
       <li>
-        Create a loop that runs at least once, given the swapped flag is set to
-        true.
+        Create a loop that runs at least once, then continues to run given the{" "}
+        <span className="inline-code">hasSwapped</span> flag is set to true.
       </li>
       <li>
-        Start a nested iteration from 0, compare the value of the current index
-        (i) with the value from the next index (i+1).
+        Start a nested iteration from <span className="inline-code">0</span>,
+        compare the value of the current index (
+        <span className="inline-code">i</span>) with the value from the next
+        index (<span className="inline-code">i+1</span>).
       </li>
       <li>
-        If the value in index <em>i</em> is greater than the value in index i+1,
-        swap the values. Set a flag to indicate that values have been swapped.
+        If the value in index <span className="inline-code">i</span> is greater
+        than the value in index <span className="inline-code">i+1</span>, swap
+        the values. Set a flag to indicate that values have been swapped.
       </li>
       <li>
         Move to the next index in the list and perform the same operation, until
-        the end of the array is reached.
+        the end of the list is reached.
       </li>
       <li>
-        If no values have been swapped, it means the array is sorted. Then we
-        will exit the outer loop. If values have been swapped we will iterate
-        over the array once again from step 3.
+        If no values have been swapped, it means that the list is sorted. Then
+        we will exit the outer loop. If values have been swapped we will iterate
+        over the list once again from step 3.
       </li>
     </ol>
   </DetailsWrapper>
 );
-// TODO: scientific notation
 const complexityDetails = (
   <DetailsWrapper summary="Best & worst case" open={false}>
     <>
       <p>
-        Best case: linear O(n): when the input array is already sorted. In this
-        case, we only have to iterate through each set of numbers once.
+        <b>BEST CASE</b>: <b className="inline-code">O(n)</b>
+        <br />
+        <em>Linear.</em> <br />
+        This is the case when the input list is already sorted. In this case, we
+        only have to iterate through each set of numbers once.
       </p>
       <p>
-        Worst case: quadratic O(n²): this is the case when every element of the
-        input array is exactly opposite of the sorted order. Every element needs
-        to be swapped with every other element. We will iterate n*n times.
+        <b>WORST CASE</b>: <b className="inline-code">O(n²)</b>
+        <br />
+        <em>Quadratic.</em> <br />
+        This is the case when every element of the input list is exactly
+        opposite of the sorted order. Every element needs to be swapped with
+        every other element. We will iterate <b className="inline-code">
+          n*n
+        </b>{" "}
+        times.
+      </p>
+      <p>
+        ... where <b className="inline-code">n</b> is the number of items in the
+        list
       </p>
     </>
   </DetailsWrapper>
@@ -99,7 +114,7 @@ export default function App() {
 
   useEffect(() => {
     if (isSortingDone && intervalRef) {
-      handleReset();
+      setTimeout(handleReset, 2000);
     }
   }, [isSortingDone, intervalRef]);
 
@@ -223,8 +238,8 @@ export default function App() {
       <h2>TIME COMPLEXITY</h2>
       {complexityDetails}
       <h2>EXAMPLE CODE</h2>
-      {/* Control panel */}
-      <div>
+
+      <section id="buttons">
         <button onClick={isPlaying ? handlePause : handlePlay}>
           {isPlaying ? "Pause " : "Play "}
           {sortOrder === SortOrder.Ascending ? "best case" : "worst case"}
@@ -234,10 +249,11 @@ export default function App() {
         </button>
 
         <button onClick={handleOrder} disabled={hasStarted}>
-          Select{" "}
+          Change to{" "}
           {sortOrder === SortOrder.Ascending ? "worst case" : "best case"}
         </button>
-      </div>
+      </section>
+
       <h3>Speed Control</h3>
       <div id="speed-control">
         <button
@@ -288,39 +304,50 @@ export default function App() {
   }`}
         />
       </DetailsWrapper>
-      <div id="arrow">
-        <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
-          <ArrowDown />
-        </span>
-      </div>
-      <section id="numbers">
-        {numbers.map((value, index) => {
-          return (
-            <div
-              key={value}
-              className={clsx({ outer: true, index: index === i })}
-            >
-              <div
-                className={clsx({
-                  "list-box": true,
-                  current: value === current,
-                  next: value === next,
-                  swap: shouldSwap,
-                })}
-              >
-                <span>{value}</span>
-              </div>
-            </div>
-          );
-        })}
+      <section id="visualization">
+        <div>
+          <div id="arrow">
+            <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
+              <ArrowDown />
+            </span>
+          </div>
+          <section id="numbers">
+            {numbers.map((value, index) => {
+              return (
+                <div
+                  key={value}
+                  className={clsx({ outer: true, index: index === i })}
+                >
+                  <div
+                    className={clsx({
+                      "list-box": true,
+                      current: value === current,
+                      next: value === next,
+                      swap: shouldSwap,
+                    })}
+                  >
+                    <span>{value}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </section>
+        </div>
+
+        <div id="iterations">
+          <h4>NO. OF ITERATIONS</h4>
+          <div id="iterations-counter">x{noOfIterations}</div>
+        </div>
       </section>
       <p>
-        <span>Iterations: {noOfIterations}.</span>
+        <span>&nbsp;</span>
         {current && next && current > next && (
-          <span>{` ${current} is greater than ${next}. Swapping  ${current} and ${next}.`}</span>
+          <>
+            <span>{` ${current} is greater than ${next}. `}</span>
+            <span>{` Swapping  ${current} and ${next}.`}</span>
+          </>
         )}
       </p>
-      <div></div>
     </main>
   );
 }
