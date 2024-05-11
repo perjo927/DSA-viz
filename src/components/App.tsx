@@ -164,13 +164,13 @@ export default function App() {
   function handleOrder() {
     sorter.return(null);
 
-    const order =
+    const newOrder =
       sortOrder === SortOrder.Ascending
         ? SortOrder.Descending
         : SortOrder.Ascending;
 
     const newNumbers =
-      sortOrder === SortOrder.Ascending
+      newOrder === SortOrder.Ascending
         ? numbersAscending.slice()
         : numbersDescending.slice();
 
@@ -180,7 +180,7 @@ export default function App() {
       step: step(0),
       numbers: newNumbers,
     });
-    setSortOrder(order);
+    setSortOrder(newOrder);
     setNumbers(newNumbers);
   }
 
@@ -226,28 +226,31 @@ export default function App() {
       {/* Control panel */}
       <div>
         <button onClick={isPlaying ? handlePause : handlePlay}>
-          {isPlaying ? "Pause" : "Play"} best case
+          {isPlaying ? "Pause " : "Play "}
+          {sortOrder === SortOrder.Ascending ? "best case" : "worst case"}
         </button>
         <button onClick={handleReset} disabled={!hasStarted}>
           Reset
         </button>
 
         <button onClick={handleOrder} disabled={hasStarted}>
-          Change order
+          Select{" "}
+          {sortOrder === SortOrder.Ascending ? "worst case" : "best case"}
         </button>
       </div>
-      <div>
-        {/* Speed Indicator */}
+      <h3>Speed Control</h3>
+      <div id="speed-control">
         <button
           onClick={() => handleSpeed(1)}
           disabled={(hasStarted && isPlaying) || intervalLength >= speed.MAX}
         >
           {"-"}
         </button>
-        <div id="speed">
+        <div id="speed" className={clsx({ disabled: hasStarted })}>
           <span
+            className={clsx({ disabled: hasStarted })}
             id="speed-indicator"
-            style={{ left: `${32 - intervalLength / 31}rem` }}
+            style={{ left: `${20 - intervalLength / 50}rem` }}
           ></span>
         </div>
         <button
