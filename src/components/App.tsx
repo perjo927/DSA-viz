@@ -342,52 +342,54 @@ export default function App() {
           </DetailsWrapper>
         </div>
 
-        <div id="visualization">
-          <h2>VISUALIZATION</h2>
+        <div>
+          <div id="visualization">
+            <h2>VISUALIZATION</h2>
 
-          <div>
-            <div id="arrow">
-              <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
-                <ArrowDown />
-              </span>
-            </div>
-            <div id="numbers">
-              {numbers.map((value, index) => {
-                return (
-                  <div
-                    key={value}
-                    className={clsx({ outer: true, index: index === i })}
-                  >
-                    <div
-                      className={clsx({
-                        "list-box": true,
-                        current: value === current,
-                        next: value === next,
-                        swap: shouldSwap,
-                      })}
-                    >
-                      <span>{value}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <p>
-            <span>&nbsp;</span>
-            {current && next && current > next && (
-              <>
-                <span>{` ${current} is greater than ${next}. `}</span>
-                <span>{` Swap  ${current} and ${next}.`}</span>
-              </>
-            )}
-          </p>
-
-          <div id="iterations">
-            <i>iterations</i>
             <div>
-              ×<span id="iterations-counter">{noOfIterations}</span>
+              <div id="arrow">
+                <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
+                  <ArrowDown />
+                </span>
+              </div>
+              <div id="numbers">
+                {numbers.map((value, index) => {
+                  return (
+                    <div
+                      key={value}
+                      className={clsx({ outer: true, index: index === i })}
+                    >
+                      <div
+                        className={clsx({
+                          "list-box": true,
+                          current: value === current,
+                          next: value === next,
+                          swap: shouldSwap,
+                        })}
+                      >
+                        <span>{value}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <p>
+              <span>&nbsp;</span>
+              {current && next && current > next && (
+                <>
+                  <span>{` ${current} is greater than ${next}. `}</span>
+                  <span>{` Swap  ${current} and ${next}.`}</span>
+                </>
+              )}
+            </p>
+
+            <div id="iterations">
+              <i>iterations</i>
+              <div>
+                ×<span id="iterations-counter">{noOfIterations}</span>
+              </div>
             </div>
           </div>
         </div>

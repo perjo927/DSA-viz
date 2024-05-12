@@ -117,14 +117,21 @@ main#mfe--bubble-sort {
   }
 
   #example-code {
-    @container (max-width: 999px) {
-      > div:first-of-type {
+    @container (max-width: 850px) {
+      > div {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
       div#buttons {
         justify-content: center;
       }
       div#speed-control {
+        justify-content: center;
+      }
+      div#visualization {
         justify-content: center;
       }
     }
@@ -251,9 +258,8 @@ main#mfe--bubble-sort {
     #visualization {
       max-width: 24rem;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      align-self: flex-start;
+      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
       gap: 1rem;
       padding: 0rem 1rem 1rem 1rem;

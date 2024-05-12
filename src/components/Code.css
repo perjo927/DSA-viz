@@ -2,7 +2,7 @@ main#mfe--bubble-sort {
   container-type: inline-size;
 
   code {
-    @container (max-width: 900px) {
+    @container (max-width: 850px) {
       max-width: 100%;
     }
 
