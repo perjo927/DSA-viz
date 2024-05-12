@@ -1,5 +1,4 @@
 import { JSX } from "react";
-import "./Details.css";
 
 export const DetailsWrapper = ({
   summary,
