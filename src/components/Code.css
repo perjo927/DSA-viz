@@ -1,5 +1,11 @@
 main#mfe--bubble-sort {
+  container-type: inline-size;
+
   code {
+    @container (max-width: 900px) {
+      max-width: 100%;
+    }
+
     font-family: "Courier New", Courier, monospace;
     font-family: "Fira Code";
     font-optical-sizing: auto;
@@ -17,7 +23,8 @@ main#mfe--bubble-sort {
       #000000c7 100%
     );
     margin-block: 1rem;
-    width: 30rem;
+    min-width: 26rem;
+    max-width: 28rem;
     padding: 1rem;
     border-radius: 2px;
     border: 1px ridge #ffffffbf;

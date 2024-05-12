@@ -1,14 +1,28 @@
 body {
-  background-color: #191919;
-  color: #d8d8d8;
-}
-
-main#mfe--bubble-sort {
   font-family: "Old Standard TT", serif;
   font-size: 16px;
   padding: 0 1rem;
   line-height: 1.5rem;
-  width: 40rem;
+  background-color: #191919;
+  color: #d8d8d8;
+
+  @media (max-width: 420px) {
+    font-size: 12px;
+  }
+  @media (min-width: 1250px) {
+    font-size: 18px;
+  }
+}
+
+main#mfe--bubble-sort {
+  width: 100%;
+
+  @media (max-width: 1000px) {
+    h2,
+    h3 {
+      text-align: center;
+    }
+  }
 
   h1 {
     color: white;
@@ -21,7 +35,7 @@ main#mfe--bubble-sort {
   h3 {
     letter-spacing: 0.1rem;
     font-weight: 400;
-    margin-block: 3rem 1rem;
+    margin-block: 1rem;
   }
   h3 {
     margin-top: 2rem;
@@ -37,6 +51,10 @@ main#mfe--bubble-sort {
     font-family: "Old Standard TT", serif;
     cursor: pointer;
     margin-inline: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 
     &:hover {
       background-color: #111111;
@@ -44,6 +62,10 @@ main#mfe--bubble-sort {
     &:disabled {
       background-color: #4f4f4f;
       cursor: not-allowed;
+    }
+
+    svg {
+      width: 1rem;
     }
   }
 
@@ -67,148 +89,202 @@ main#mfe--bubble-sort {
     color: palevioletred;
   }
 
-  section#numbers {
-    height: 5rem;
+  #explanations,
+  #example-code {
+    container-type: inline-size;
+    border: 1px solid rgb(91, 91, 91);
+    border-radius: 4px;
+    padding: 0 1rem 1rem 1rem;
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
 
-    .pointer {
-      text-align: center;
-      height: 2rem;
-    }
-
-    .list-box {
-      font-family: "Fira Code", monospace;
-      font-optical-sizing: auto;
-      font-weight: 100;
-      box-sizing: border-box;
-      width: 4rem;
-      height: 4rem;
-      text-align: center;
-      display: grid;
-      place-items: center;
-      background: rgba(25, 155, 255, 0.2);
-      border-radius: 50%;
-      background: radial-gradient(
-        ellipse at center,
-        #ffe0f5 0%,
-        #e89be3 46%,
-        #340024 100%
-      );
-      border: 1px ridge #c20071;
-      perspective: 1000px;
-      transition: box-shadow 0.3s;
-
-      span {
-        text-shadow: -1px -1px 0 #e1d3e1, 1px -1px 0 #1e0020, -1px 1px 0 #2c002b,
-          1px 1px 0 #320032;
-        color: rgb(226 87 255);
-        line-height: 70px;
-        font-size: 2.5rem;
-        transform: translateY(-8px) translateZ(100px) rotateX(316deg)
-          skew(0deg, 0deg);
+  #explanations {
+    > div {
+      @container (max-width: 899px) {
+        max-width: 100%;
       }
 
-      &.current {
-        box-shadow: 0px 0px 6px 4px white;
-
-        &.swap {
-          animation: jump-up 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-        }
-      }
-      &.next {
-        box-shadow: 0px 0px 5px 3px rgba(246, 200, 255, 0.902);
-        &.swap {
-          animation: jump-down 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28)
-            forwards;
-        }
+      @container (min-width: 900px) {
+        flex: 1;
       }
     }
   }
 
-  #visualization {
-    width: 34rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    + p {
-      width: 20rem;
+  #example-code {
+    @container (max-width: 999px) {
+      > div:first-of-type {
+        flex: 1;
+      }
+      div#buttons {
+        justify-content: center;
+      }
+      div#speed-control {
+        justify-content: center;
+      }
     }
 
-    #iterations {
-      h4 {
-        margin: 1rem 0 0 0;
-      }
+    #buttons {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-      height: 6rem;
+    #speed-control {
+      position: relative;
       display: flex;
       gap: 1rem;
-      flex-direction: column;
-      justify-content: space-between;
       align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 2rem;
 
-      #iterations-counter {
-        font-size: 4rem;
+      button {
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          width: 1rem;
+        }
+      }
+
+      #speed {
+        border-radius: 1rem;
+        width: 20rem;
+        height: 1rem;
+        box-shadow: inset 0px 0px 16px 1px #ff21a3;
+        position: relative;
+
+        &.disabled {
+          box-shadow: inset 0px 0px 16px 1px #ffe2f3;
+        }
+      }
+
+      #speed-indicator {
+        position: relative;
+        display: inline-block;
+        background-color: #340024;
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        left: 0;
+        top: -8px;
+        box-shadow: 0px 0px 6px 1px #fff8fc;
+        opacity: 0.95;
+
+        &.disabled {
+          background-color: #000000;
+        }
       }
     }
-  }
 
-  #arrow {
-    height: 5rem;
-
-    span {
-      display: block;
-      height: 3rem;
-      width: 3rem;
-      position: relative;
-      transition: all 0.2s;
-    }
-  }
-
-  #speed-control {
-    position: relative;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 1rem;
-
-    button {
-      border-radius: 50%;
-      height: 2rem;
-      width: 2rem;
+    #numbers {
+      height: 5rem;
       display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      flex-direction: row;
+      gap: 0.5rem;
 
-    #speed {
-      border-radius: 1rem;
-      width: 20rem;
-      height: 1rem;
-      box-shadow: inset 0px 0px 16px 1px #ff21a3;
-      position: relative;
+      .pointer {
+        text-align: center;
+        height: 2rem;
+      }
 
-      &.disabled {
-        box-shadow: inset 0px 0px 16px 1px #ffe2f3;
+      .list-box {
+        font-family: "Fira Code", monospace;
+        font-optical-sizing: auto;
+        font-weight: 100;
+        box-sizing: border-box;
+        width: 4rem;
+        height: 4rem;
+        text-align: center;
+        display: grid;
+        place-items: center;
+        background: rgba(25, 155, 255, 0.2);
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse at center,
+          #ffe0f5 0%,
+          #e89be3 46%,
+          #340024 100%
+        );
+        border: 1px ridge #c20071;
+        perspective: 1000px;
+        transition: box-shadow 0.3s;
+
+        span {
+          text-shadow: -1px -1px 0 #e1d3e1, 1px -1px 0 #1e0020,
+            -1px 1px 0 #2c002b, 1px 1px 0 #320032;
+          color: rgb(226 87 255);
+          line-height: 70px;
+          font-size: 2.5rem;
+          transform: translateY(-8px) translateZ(100px) rotateX(316deg)
+            skew(0deg, 0deg);
+        }
+
+        &.current {
+          box-shadow: 0px 0px 6px 4px white;
+
+          &.swap {
+            animation: jump-up 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+              forwards;
+          }
+        }
+        &.next {
+          box-shadow: 0px 0px 5px 3px rgba(246, 200, 255, 0.902);
+          &.swap {
+            animation: jump-down 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+              forwards;
+          }
+        }
       }
     }
 
-    #speed-indicator {
-      position: relative;
-      display: inline-block;
-      background-color: #340024;
-      border-radius: 50%;
-      height: 2rem;
-      width: 2rem;
-      left: 0;
-      top: -8px;
-      box-shadow: 0px 0px 6px 1px #fff8fc;
-      opacity: 0.95;
+    #visualization {
+      max-width: 24rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      align-self: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0rem 1rem 1rem 1rem;
 
-      &.disabled {
-        background-color: #000000;
+      > p {
+        min-width: 16rem;
+        max-width: 20rem;
+      }
+
+      #iterations {
+        display: grid;
+        gap: 0.8rem;
+        place-items: center;
+        flex: 1;
+        align-self: center;
+
+        #iterations-counter {
+          font-size: 2.8rem;
+        }
+      }
+    }
+
+    #arrow {
+      height: 5rem;
+
+      span {
+        display: block;
+        height: 3rem;
+        width: 3rem;
+        position: relative;
+        transition: all 0.2s;
       }
     }
   }
@@ -239,7 +315,7 @@ main#mfe--bubble-sort {
     transform: translate(75%, -45%);
   }
   100% {
-    transform: translate(115%, 0%);
+    transform: translate(112%, 0%);
   }
 }
 @keyframes jump-down {
@@ -262,6 +338,6 @@ main#mfe--bubble-sort {
     transform: translate(-75%, 45%);
   }
   100% {
-    transform: translate(-115%, 0%);
+    transform: translate(-112%, 0%);
   }
 }

@@ -4,22 +4,27 @@ import { getSorter } from "../lib/sorter";
 import { clsx } from "clsx";
 import { Code } from "./Code";
 import { DetailsWrapper } from "./Details";
-import { ArrowDown } from "./ArrowDown";
+import { ArrowDown, Minus, Pause, Play, Plus, Recycle, Reset } from "./Svg";
 import { step } from "../lib/step";
 
 const explanationDetails = (
   <DetailsWrapper summary="Details" open={true}>
     <p>
-      Bubble Sort works by comparing adjacent values in an array/list and
-      swapping those values if the value at the current index is greater than
-      the next (for ascending order sorting). For each iteration, the largest
-      value "bubbles" to the top. The process is repeated until all the elements
-      are in their right position.
+      Bubble Sort works by comparing adjacent values in an array/list.
+      <br />
+      <br />
+      If the value at the current index is greater than the next, those values
+      will be swapped (for sorting in ascending order). <br />
+      <br /> For each iteration, the largest value "bubbles" to the top.
+      <br />
+      <br />
+      The process is repeated until all the elements are in their right
+      position.
     </p>
   </DetailsWrapper>
 );
 const algorithmDetails = (
-  <DetailsWrapper summary="Steps" open={false}>
+  <DetailsWrapper summary="Steps" open={true}>
     <ol>
       <li>Create a flag to indicate if values have been swapped.</li>
       <li>
@@ -50,12 +55,13 @@ const algorithmDetails = (
   </DetailsWrapper>
 );
 const complexityDetails = (
-  <DetailsWrapper summary="Best & worst case" open={false}>
-    <>
+  <DetailsWrapper summary="Best & worst case" open={true}>
+    <div id="complexity">
       <p>
         <b>BEST CASE</b>: <b className="inline-code">O(n)</b>
         <br />
         <em>Linear.</em> <br />
+        <br />
         This is the case when the input list is already sorted. In this case, we
         only have to iterate through each set of numbers once.
       </p>
@@ -63,6 +69,7 @@ const complexityDetails = (
         <b>WORST CASE</b>: <b className="inline-code">O(n²)</b>
         <br />
         <em>Quadratic.</em> <br />
+        <br />
         This is the case when every element of the input list is exactly
         opposite of the sorted order. Every element needs to be swapped with
         every other element. We will iterate <b className="inline-code">
@@ -74,7 +81,7 @@ const complexityDetails = (
         ... where <b className="inline-code">n</b> is the number of items in the
         list
       </p>
-    </>
+    </div>
   </DetailsWrapper>
 );
 
@@ -231,55 +238,84 @@ export default function App() {
   return (
     <main id="mfe--bubble-sort">
       <h1>BUBBLE SORT</h1>
-      <h2>EXPLANATION</h2>
-      {explanationDetails}
-      <h2>ALGORITHM</h2>
-      {algorithmDetails}
-      <h2>TIME COMPLEXITY</h2>
-      {complexityDetails}
-      <h2>EXAMPLE CODE</h2>
 
-      <section id="buttons">
-        <button onClick={isPlaying ? handlePause : handlePlay}>
-          {isPlaying ? "Pause " : "Play "}
-          {sortOrder === SortOrder.Ascending ? "best case" : "worst case"}
-        </button>
-        <button onClick={handleReset} disabled={!hasStarted}>
-          Reset
-        </button>
-
-        <button onClick={handleOrder} disabled={hasStarted}>
-          Change to{" "}
-          {sortOrder === SortOrder.Ascending ? "worst case" : "best case"}
-        </button>
+      <section id="explanations">
+        <div>
+          <h2>EXPLANATION</h2>
+          {explanationDetails}
+        </div>
+        <div>
+          <h2>ALGORITHM</h2>
+          {algorithmDetails}
+        </div>
+        <div id="complexity">
+          <h2>TIME COMPLEXITY</h2>
+          {complexityDetails}
+        </div>
       </section>
 
-      <h3>Speed Control</h3>
-      <div id="speed-control">
-        <button
-          onClick={() => handleSpeed(1)}
-          disabled={(hasStarted && isPlaying) || intervalLength >= speed.MAX}
-        >
-          {"-"}
-        </button>
-        <div id="speed" className={clsx({ disabled: hasStarted })}>
-          <span
-            className={clsx({ disabled: hasStarted })}
-            id="speed-indicator"
-            style={{ left: `${20 - intervalLength / 50}rem` }}
-          ></span>
-        </div>
-        <button
-          onClick={() => handleSpeed(-1)}
-          disabled={(hasStarted && isPlaying) || intervalLength <= speed.MIN}
-        >
-          {"+"}
-        </button>
-      </div>
-      <DetailsWrapper summary="Source code details" open={true}>
-        <Code
-          highlightedLine={highlightedCodeStep}
-          code={`
+      <section id="example-code">
+        <div>
+          <h2>EXAMPLE CODE</h2>
+          <div id="buttons">
+            <button onClick={isPlaying ? handlePause : handlePlay}>
+              {isPlaying ? (
+                <span>
+                  <Pause />
+                </span>
+              ) : (
+                <span>
+                  <Play />
+                </span>
+              )}
+              {isPlaying ? "Pause " : "Play "}
+            </button>
+            <button onClick={handleReset} disabled={!hasStarted}>
+              <span>
+                <Reset />
+              </span>
+              Reset
+            </button>
+
+            <button onClick={handleOrder} disabled={hasStarted}>
+              <span>
+                <Recycle />
+              </span>
+              Change to{" "}
+              {sortOrder === SortOrder.Ascending ? "worst case" : "best case"}
+            </button>
+          </div>
+
+          <h3>Speed Control</h3>
+          <div id="speed-control">
+            <button
+              onClick={() => handleSpeed(1)}
+              disabled={hasStarted || isPlaying || intervalLength >= speed.MAX}
+            >
+              <span>
+                <Minus />
+              </span>
+            </button>
+            <div id="speed" className={clsx({ disabled: hasStarted })}>
+              <span
+                className={clsx({ disabled: hasStarted })}
+                id="speed-indicator"
+                style={{ left: `${20 - intervalLength / 50}rem` }}
+              ></span>
+            </div>
+            <button
+              onClick={() => handleSpeed(-1)}
+              disabled={hasStarted || isPlaying || intervalLength <= speed.MIN}
+            >
+              <span>
+                <Plus />
+              </span>
+            </button>
+          </div>
+          <DetailsWrapper summary="Source code details" open={true}>
+            <Code
+              highlightedLine={highlightedCodeStep}
+              code={`
   function sort(numbers) { {{${numbers}}} 
     let hasSwapped; {{${swapped ?? ""}}} ${step(1)}
 
@@ -302,52 +338,60 @@ export default function App() {
 
     return numbers; ${step(10)}
   }`}
-        />
-      </DetailsWrapper>
-      <section id="visualization">
-        <div>
-          <div id="arrow">
-            <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
-              <ArrowDown />
-            </span>
-          </div>
-          <section id="numbers">
-            {numbers.map((value, index) => {
-              return (
-                <div
-                  key={value}
-                  className={clsx({ outer: true, index: index === i })}
-                >
-                  <div
-                    className={clsx({
-                      "list-box": true,
-                      current: value === current,
-                      next: value === next,
-                      swap: shouldSwap,
-                    })}
-                  >
-                    <span>{value}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </section>
+            />
+          </DetailsWrapper>
         </div>
 
-        <div id="iterations">
-          <h4>NO. OF ITERATIONS</h4>
-          <div id="iterations-counter">x{noOfIterations}</div>
+        <div id="visualization">
+          <h2>VISUALIZATION</h2>
+
+          <div>
+            <div id="arrow">
+              <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
+                <ArrowDown />
+              </span>
+            </div>
+            <div id="numbers">
+              {numbers.map((value, index) => {
+                return (
+                  <div
+                    key={value}
+                    className={clsx({ outer: true, index: index === i })}
+                  >
+                    <div
+                      className={clsx({
+                        "list-box": true,
+                        current: value === current,
+                        next: value === next,
+                        swap: shouldSwap,
+                      })}
+                    >
+                      <span>{value}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <p>
+            <span>&nbsp;</span>
+            {current && next && current > next && (
+              <>
+                <span>{` ${current} is greater than ${next}. `}</span>
+                <span>{` Swap  ${current} and ${next}.`}</span>
+              </>
+            )}
+          </p>
+
+          <div id="iterations">
+            <i>iterations</i>
+            <div>
+              ×<span id="iterations-counter">{noOfIterations}</span>
+            </div>
+          </div>
         </div>
       </section>
-      <p>
-        <span>&nbsp;</span>
-        {current && next && current > next && (
-          <>
-            <span>{` ${current} is greater than ${next}. `}</span>
-            <span>{` Swapping  ${current} and ${next}.`}</span>
-          </>
-        )}
-      </p>
     </main>
   );
 }
