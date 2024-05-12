@@ -300,7 +300,7 @@ export default function App() {
               <span
                 className={clsx({ disabled: hasStarted })}
                 id="speed-indicator"
-                style={{ left: `${20 - intervalLength / 50}rem` }}
+                style={{ left: `calc(100% - ${intervalLength} * var(--size))` }}
               ></span>
             </div>
             <button
@@ -348,7 +348,7 @@ export default function App() {
 
             <div>
               <div id="arrow">
-                <span style={{ left: `${0.5 + (i ?? 0) * 4.5}rem` }}>
+                <span style={{ left: `calc(0% + ${i ?? 0} * var(--size))` }}>
                   <ArrowDown />
                 </span>
               </div>

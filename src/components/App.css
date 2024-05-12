@@ -120,20 +120,25 @@ main#mfe--bubble-sort {
     max-width: 100%;
 
     @container (max-width: 550px) {
-      > div {
-        /* max-width: 18rem; */
-      }
       div#speed {
         width: 8rem !important;
       }
-      #numbers .list-box {
-        width: 10vw !important;
-        height: 10vw !important;
+      #speed #speed-indicator {
+        --size: 0.14px !important;
+      }
+      div#numbers {
+        .list-box {
+          width: 2.8rem !important;
+          height: 2.8rem !important;
 
-        span {
-          font-size: 1.5rem !important;
-          line-height: 55px !important;
+          span {
+            font-size: 1.5rem !important;
+            line-height: 55px !important;
+          }
         }
+      }
+      div#visualization #arrow span {
+        --size: 52px !important;
       }
     }
     @container (max-width: 850px) {
@@ -198,6 +203,7 @@ main#mfe--bubble-sort {
       }
 
       #speed-indicator {
+        --size: 0.32px;
         position: relative;
         display: inline-block;
         background-color: #340024;
@@ -220,11 +226,6 @@ main#mfe--bubble-sort {
       display: flex;
       flex-direction: row;
       gap: 0.5rem;
-
-      .pointer {
-        text-align: center;
-        height: 2rem;
-      }
 
       .list-box {
         font-family: "Fira Code", monospace;
@@ -307,6 +308,7 @@ main#mfe--bubble-sort {
       height: 5rem;
 
       span {
+        --size: 72px;
         display: block;
         height: 3rem;
         width: 3rem;
