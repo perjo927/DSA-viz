@@ -117,6 +117,25 @@ main#mfe--bubble-sort {
   }
 
   #example-code {
+    max-width: 100%;
+
+    @container (max-width: 550px) {
+      > div {
+        /* max-width: 18rem; */
+      }
+      div#speed {
+        width: 8rem !important;
+      }
+      #numbers .list-box {
+        width: 10vw !important;
+        height: 10vw !important;
+
+        span {
+          font-size: 1.5rem !important;
+          line-height: 55px !important;
+        }
+      }
+    }
     @container (max-width: 850px) {
       > div {
         flex: 1;
@@ -127,6 +146,8 @@ main#mfe--bubble-sort {
       }
       div#buttons {
         justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
       }
       div#speed-control {
         justify-content: center;

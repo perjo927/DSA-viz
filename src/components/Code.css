@@ -3,7 +3,18 @@ main#mfe--bubble-sort {
 
   code {
     @container (max-width: 850px) {
+      min-width: 12rem;
       max-width: 100%;
+    }
+    @container (max-width: 420px) {
+      font-size: 0.5rem;
+
+      .dynamic {
+        font-size: 0.5rem !important;
+      }
+    }
+    @container (min-width: 1250px) {
+      font-size: 1rem;
     }
 
     font-family: "Courier New", Courier, monospace;
