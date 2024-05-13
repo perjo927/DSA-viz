@@ -153,6 +153,7 @@ main#mfe--bubble-sort {
         justify-content: center;
         gap: 0.5rem;
         flex-wrap: wrap;
+        column-gap: 0rem;
       }
       div#speed-control {
         justify-content: center;
