@@ -118,6 +118,7 @@ main#mfe--bubble-sort {
 
   #example-code {
     max-width: 100%;
+    justify-content: flex-start;
 
     @container (max-width: 550px) {
       div#speed {
@@ -223,7 +224,7 @@ main#mfe--bubble-sort {
     }
 
     #numbers {
-      height: 5rem;
+      height: 5.5rem;
       display: flex;
       flex-direction: row;
       gap: 0.5rem;
@@ -306,7 +307,7 @@ main#mfe--bubble-sort {
     }
 
     #arrow {
-      height: 5rem;
+      height: 6rem;
 
       span {
         --size: 72px;

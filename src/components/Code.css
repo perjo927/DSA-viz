@@ -14,7 +14,7 @@ main#mfe--bubble-sort {
       }
     }
     @container (min-width: 1250px) {
-      font-size: 1rem;
+      font-size: 0.85rem;
     }
 
     font-family: "Courier New", Courier, monospace;
